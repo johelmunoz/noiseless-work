@@ -279,6 +279,43 @@ main{padding:18px 0;}
 }
 
 </style>
+<style id="nw-install-style">
+  #nwInstallBtn{
+    position: fixed;
+    right: 16px;
+    bottom: 16px;
+    padding: 12px 14px;
+    border-radius: 12px;
+    border: 1px solid rgba(255,255,255,.25);
+    background: rgba(20,20,20,.85);
+    color: #fff;
+    font-weight: 700;
+    letter-spacing: .2px;
+    backdrop-filter: blur(10px);
+    -webkit-backdrop-filter: blur(10px);
+    display: none;
+    z-index: 9998;
+  }
+  #nwInstallBtn:active{ transform: translateY(1px); }
+  #nwInstallHint{
+    position: fixed;
+    left: 16px;
+    right: 16px;
+    bottom: 16px;
+    padding: 12px 14px;
+    border-radius: 12px;
+    border: 1px solid rgba(255,255,255,.18);
+    background: rgba(20,20,20,.85);
+    color: #fff;
+    font-size: 13px;
+    line-height: 1.35;
+    backdrop-filter: blur(10px);
+    -webkit-backdrop-filter: blur(10px);
+    display: none;
+    z-index: 9998;
+  }
+  #nwInstallHint b{font-weight:800}
+</style>
 </head>
 <body>
 <div id="gate" style="position:fixed;inset:0;background:#000;display:flex;align-items:center;justify-content:center;z-index:9999">
@@ -886,5 +923,42 @@ if('serviceWorker' in navigator){
 }
 </script>
 
+<button id="nwInstallBtn">Instalar app</button>
+<div id="nwInstallHint"></div>
+<script>
+(function(){
+  const isIOS = /iphone|ipad|ipod/i.test(navigator.userAgent);
+  const isStandalone = window.matchMedia('(display-mode: standalone)').matches || window.navigator.standalone === true;
+  const btn = document.getElementById('nwInstallBtn');
+  const hint = document.getElementById('nwInstallHint');
+  let deferredPrompt = null;
+
+  if(isStandalone) return;
+
+  window.addEventListener('beforeinstallprompt', (e) => {
+    // Prevent Chrome mini-infobar
+    e.preventDefault();
+    deferredPrompt = e;
+    if(btn) btn.style.display = 'block';
+  });
+
+  if(btn){
+    btn.addEventListener('click', async () => {
+      if(!deferredPrompt) return;
+      btn.style.display = 'none';
+      deferredPrompt.prompt();
+      try { await deferredPrompt.userChoice; } catch(e){}
+      deferredPrompt = null;
+    });
+  }
+
+  // iOS: show a hint since there's no install prompt
+  if(isIOS && hint){
+    hint.style.display = 'block';
+    hint.innerHTML = 'En <b>iPhone</b>: abrí esto en <b>Safari</b> → Compartir → <b>Agregar a pantalla de inicio</b>.';
+    setTimeout(()=>{ hint.style.display='none'; }, 12000);
+  }
+})();
+</script>
 </body>
 </html>
