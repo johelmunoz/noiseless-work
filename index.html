@@ -1,863 +1,139 @@
-<!doctype html>
+<!DOCTYPE html>
 <html lang="es">
 <head>
-<meta charset="utf-8"/>
-<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover"/>
-<title>HYROX Dúo</title>
-<style>
-:root {
-  --bg:#0b0f14;
-  --text:rgba(255,255,255,.92);
-  --muted:rgba(255,255,255,.72);
-  --muted2:rgba(255,255,255,.56);
-  --line:rgba(255,255,255,.14);
-  --panel:rgba(255,255,255,.08);
-  --panel2:rgba(255,255,255,.12);
-  --shadow:0 18px 60px rgba(0,0,0,.55);
-  --r:18px;
-  --z2:#24d18f;
-  --tech:#f7c948;
-  --int:#ff5c7a;
-}
-*{box-sizing:border-box}
-html,body{height:100%}
-body{
-  margin:0;
-  font-family: ui-sans-serif,system-ui,-apple-system,Segoe UI,Roboto,Helvetica,Arial;
-  background: var(--bg);
-  color: var(--text);
-  overflow-x:hidden;
-}
-#bg{position:fixed; inset:0; z-index:0; pointer-events:none;}
-#vignette{
-  position:fixed; inset:0; z-index:1;
-  background:
-    radial-gradient(1200px 800px at 20% 0%, rgba(36,209,143,.12), transparent 55%),
-    radial-gradient(1000px 700px at 85% 10%, rgba(247,201,72,.10), transparent 55%),
-    radial-gradient(1000px 700px at 50% 110%, rgba(255,92,122,.10), transparent 55%),
-    radial-gradient(900px 600px at 50% 50%, rgba(0,0,0,.18), rgba(0,0,0,.62));
-  pointer-events:none;
-}
-header{
-  position:sticky; top:0; z-index:5;
-  backdrop-filter: blur(12px);
-  background: linear-gradient(to bottom, rgba(11,15,20,.85), rgba(11,15,20,.48));
-  border-bottom:1px solid var(--line);
-}
-.wrap{max-width:980px;margin:0 auto;padding:12px 14px}
-.top{display:flex;justify-content:space-between;align-items:center;gap:10px;flex-wrap:wrap}
-.brand{display:flex;align-items:center;gap:10px;min-width:240px}
-.iso{
-  width:40px;height:40px;border-radius:14px;
-  border:1px solid var(--line);
-  background:rgba(255,255,255,.06);
-  overflow:hidden;
-  display:grid;place-items:center;
-}
-.iso img{width:100%;height:100%;object-fit:cover;display:none}
-.iso .fallback{font-weight:900;color:rgba(255,255,255,.78)}
-.logo{height:26px;display:none}
-.title{display:flex;flex-direction:column;gap:2px}
-.title .h{font-weight:900;letter-spacing:.35px;font-size:14px}
-.title .s{font-size:12px;color:var(--muted2)}
-.actions{display:flex;gap:8px;flex-wrap:wrap;align-items:center}
-select, button{
-  border:1px solid var(--line);
-  background:rgba(255,255,255,.06);
-  color:var(--text);
-  border-radius:12px;
-  padding:10px 12px;
-  outline:none;
-}
-button{cursor:pointer}
-button:hover{background:rgba(255,255,255,.10)}
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 
-main{position:relative; z-index:2; padding:14px}
-.card{
-  background: linear-gradient(180deg, var(--panel2), var(--panel));
-  border: 1px solid var(--line);
-  border-radius: var(--r);
-  box-shadow: var(--shadow);
-}
-.glass{backdrop-filter: blur(14px)}
-.panel{padding:12px}
+  <title>NOISELESS WORK — HYROX</title>
 
-.kpis{display:grid;grid-template-columns:repeat(4,1fr);gap:10px}
-@media (max-width:820px){.kpis{grid-template-columns:repeat(2,1fr)}}
-@media (max-width:520px){.kpis{grid-template-columns:1fr}}
-.kpi{padding:10px;border:1px solid var(--line);border-radius:16px;background:rgba(0,0,0,.14)}
-.val{font-weight:900;font-size:16px}
-.lbl{font-size:11px;color:var(--muted2);margin-top:2px}
-.badge{font-weight:900}
-.badge.z2{color:var(--z2)}
-.badge.tech{color:var(--tech)}
-.badge.int{color:var(--int)}
+  <!-- PWA -->
+  <link rel="manifest" href="manifest.webmanifest">
+  <meta name="theme-color" content="#000000">
 
-.pills{display:flex;gap:8px;flex-wrap:wrap;margin-top:10px}
-.pill{
-  padding:7px 10px;border-radius:999px;border:1px solid var(--line);
-  background:rgba(255,255,255,.05);
-  font-size:12px;color:rgba(255,255,255,.86);
-  cursor:pointer; user-select:none;
-}
-.pill:hover{background:rgba(255,255,255,.08)}
+  <!-- Apple -->
+  <link rel="apple-touch-icon" href="icons/icon-192.png">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black">
 
-.daysRow{display:grid;gap:10px;grid-template-columns:repeat(7,1fr);margin-top:12px}
-@media (max-width:900px){.daysRow{grid-template-columns:repeat(4,1fr)}}
-@media (max-width:520px){.daysRow{grid-template-columns:repeat(2,1fr)}}
-.dayBtn{padding:12px;border-radius:16px;border:1px solid var(--line);background:rgba(0,0,0,.18);cursor:pointer;transition: transform .12s ease, background .18s ease;min-width:0}
-.dayBtn:hover{transform:translateY(-2px); background:rgba(0,0,0,.26)}
+  <style>
+    html, body {
+      margin: 0;
+      padding: 0;
+      background: #000;
+      color: #fff;
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+      height: 100%;
+    }
 
-.daysRow{justify-content:flex-start}
-.dayBtn{min-width:118px;max-width:160px}
-@media (max-width:520px){
-  .dayBtn{flex:1 1 calc(50% - 10px); max-width:none; min-width:0;}
-}
+    /* ===== PASSWORD GATE ===== */
+    #gate {
+      position: fixed;
+      inset: 0;
+      background: #000;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      z-index: 9999;
+    }
 
-.dayBtn .d{font-weight:900}
-.dayBtn .t{font-size:11px;color:var(--muted2);margin-top:4px}
+    .gate-box {
+      width: 100%;
+      max-width: 320px;
+      padding: 32px;
+      text-align: center;
+    }
 
-.overlay{
-  position:fixed; inset:0; z-index:20;
-  background:rgba(0,0,0,.55);
-  display:none; align-items:flex-end; justify-content:center;
-  padding: env(safe-area-inset-top) 10px env(safe-area-inset-bottom);
-}
-@media (min-width: 720px){
-  .overlay{align-items:center;}
-}
-.sheet{
-  width:min(980px, 100%);
-  border-top-left-radius:22px;
-  border-top-right-radius:22px;
-  border:1px solid var(--line);
-  background:linear-gradient(180deg, rgba(255,255,255,.12), rgba(255,255,255,.06));
-  backdrop-filter: blur(16px);
-  box-shadow: 0 30px 90px rgba(0,0,0,.6);
-  padding:14px;
-  padding-bottom:calc(14px + env(safe-area-inset-bottom));
-  max-height: 82vh;
-  overflow:auto;
-  transform: translateY(14px);
-  opacity:0;
-}
-.overlay.show{display:flex}
-.overlay.show .sheet{animation: sheetIn .18s ease-out forwards}
-@keyframes sheetIn{to{transform:translateY(0);opacity:1}}
+    .gate-box img {
+      width: 96px;
+      margin-bottom: 24px;
+    }
 
-@media (min-width: 720px){
-  .overlay.show .sheet{animation: popIn .16s ease-out forwards}
-  @keyframes popIn{from{transform:scale(.98);opacity:0}to{transform:scale(1);opacity:1}}
-}
+    .gate-box h1 {
+      font-size: 18px;
+      margin-bottom: 16px;
+      font-weight: 600;
+      letter-spacing: 1px;
+    }
 
-.sheetHead{display:flex;justify-content:space-between;align-items:center;gap:10px}
-.sheetTitle{font-weight:900}
-.close{padding:8px 10px;border-radius:12px}
-.section{margin-top:12px; padding:12px;border:1px solid var(--line);border-radius:16px;background:rgba(0,0,0,.12)}
-.section .st{font-weight:900;font-size:12px;margin-bottom:6px}
-.small{font-size:12px;color:var(--muted);line-height:1.35;white-space:pre-wrap}
-.tags{display:flex;gap:6px;flex-wrap:wrap;margin-top:8px}
-.tag{padding:4px 8px;border-radius:999px;border:1px solid var(--line);background:rgba(255,255,255,.04);font-size:11px;color:rgba(255,255,255,.86)}
-.weekList{display:grid;gap:8px}
-.weekItem{
-  padding:12px;border-radius:14px;border:1px solid var(--line);
-  background:rgba(0,0,0,.16);cursor:pointer;
-}
-.weekItem:hover{background:rgba(0,0,0,.24)}
-.weekItem .w{font-weight:900}
-.weekItem .m{font-size:12px;color:var(--muted2);margin-top:2px}
+    .gate-box input {
+      width: 100%;
+      padding: 12px;
+      font-size: 16px;
+      border-radius: 6px;
+      border: none;
+      margin-bottom: 12px;
+      outline: none;
+    }
 
-.container{max-width:980px;margin:0 auto;padding:0 14px;}
-@media (min-width:1100px){.container{max-width:940px;}}
-main{padding:18px 0;}
+    .gate-box button {
+      width: 100%;
+      padding: 12px;
+      font-size: 15px;
+      background: #fff;
+      color: #000;
+      border: none;
+      border-radius: 6px;
+      cursor: pointer;
+      font-weight: 600;
+    }
 
-@media (min-width: 720px){
-  .sheet{
-    width:min(760px, calc(100% - 24px));
-    border-radius:22px;
-    max-height:78vh;
-  }
-}
+    .gate-box p {
+      margin-top: 12px;
+      font-size: 13px;
+      color: #ff5555;
+      display: none;
+    }
 
-
-/* Modal content readability */
-.modalGrid{display:grid;gap:12px}
-@media (min-width:720px){
-  .modalGrid{grid-template-columns: 1.35fr .65fr; align-items:start}
-}
-.mCol{min-width:0}
-.detailsCard{
-  border:1px solid var(--line);
-  border-radius:16px;
-  background:rgba(0,0,0,.10);
-  overflow:hidden;
-}
-.detailsCard summary{
-  list-style:none;
-  cursor:pointer;
-  padding:12px 12px;
-  display:flex;
-  align-items:center;
-  justify-content:space-between;
-  gap:10px;
-  user-select:none;
-}
-.detailsCard summary::-webkit-details-marker{display:none}
-.detailsCard summary .k{font-weight:900;font-size:12px;letter-spacing:.2px}
-.detailsCard summary .hint{font-size:11px;color:var(--muted2)}
-.chev{opacity:.8}
-.detailsCard[open] summary{background:rgba(255,255,255,.05)}
-.detailsBody{padding:10px 12px 12px}
-.readable{
-  font-size:12.5px;
-  color:var(--muted);
-  line-height:1.45;
-  white-space:normal;
-}
-.readable p{margin:0 0 8px}
-.readable ul{margin:8px 0 0 18px; padding:0}
-.readable li{margin:6px 0}
-.sideBox{
-  border:1px solid var(--line);
-  border-radius:16px;
-  background:rgba(0,0,0,.10);
-  padding:12px;
-}
-.sideTitle{font-weight:900;font-size:12px;margin-bottom:8px}
-.kv{display:grid;gap:6px}
-.kv .row{display:flex;gap:8px;align-items:flex-start}
-.kv .key{min-width:92px;font-size:11px;color:var(--muted2)}
-.kv .val{font-size:12px;color:var(--muted);line-height:1.35}
-.tagWrap{display:flex;gap:6px;flex-wrap:wrap;margin-top:8px}
-
-
-/* ===== Modal Dashboard Redesign ===== */
-.modal-content{max-width:960px}
-.modal-grid{display:grid;grid-template-columns:1.4fr .8fr;gap:16px}
-@media(max-width:900px){.modal-grid{grid-template-columns:1fr}}
-.card{background:rgba(255,255,255,.06);border:1px solid rgba(255,255,255,.12);border-radius:14px;padding:14px}
-.card h4{margin:0 0 8px;font-size:14px;letter-spacing:.04em;opacity:.9}
-.chips{display:flex;flex-wrap:wrap;gap:8px}
-.chip{padding:6px 10px;border-radius:999px;background:rgba(255,255,255,.1);font-size:12px}
-.summary{display:grid;grid-template-columns:1fr 1fr;gap:10px}
-.summary .item{background:rgba(0,0,0,.25);border-radius:12px;padding:10px;font-size:13px}
-
-
-/* --- Modal heading colors for quick scanning --- */
-.h-hyp{color:var(--int)}
-.h-hyrox{color:var(--tech)}
-.h-run{color:var(--z2)}
-.h-dist{color:rgba(255,255,255,.9)}
-.h-rec{color:rgba(255,255,255,.75)}
-.card h4{display:flex;align-items:center;justify-content:space-between}
-.card h4 .dot{width:8px;height:8px;border-radius:999px;display:inline-block;margin-right:8px;opacity:.95}
-.dot-hyp{background:var(--int)}
-.dot-hyrox{background:var(--tech)}
-.dot-run{background:var(--z2)}
-.dot-dist{background:rgba(255,255,255,.65)}
-
-
-/* ===== Brand Header Prominent ===== */
-.brand-header{
-  display:flex;
-  align-items:center;
-  justify-content:center;
-  gap:16px;
-  padding:18px 16px 8px;
-}
-.brand-header img{
-  max-height:64px;
-}
-.brand-title{
-  font-size:20px;
-  letter-spacing:.18em;
-  font-weight:900;
-}
-@media(max-width:600px){
-  .brand-header img{max-height:52px}
-  .brand-title{font-size:16px}
-}
-
-</style>
-
-    <!-- PWA / Mobile fixes -->
-    <link rel="manifest" href="manifest.webmanifest">
-    <meta name="theme-color" content="#000000">
-    <meta name="apple-mobile-web-app-capable" content="yes">
-    <meta name="apple-mobile-web-app-status-bar-style" content="black">
-    <meta name="apple-mobile-web-app-title" content="NOISELESS WORK">
-    <link rel="apple-touch-icon" href="icons/icon-192.png">
-
+    /* ===== APP ===== */
+    #app {
+      display: none;
+      padding: 24px;
+    }
+  </style>
 </head>
+
 <body>
-<div class="brand-header" style="display:none">
-  <img src="isotipo.png" alt="Noiseless Work isotipo">
-  <div class="brand-title">NOISELESS WORK</div>
-  <img src="logotipo.png" alt="Noiseless Work logotipo">
-</div>
 
-<canvas id="bg"></canvas>
-<div id="vignette"></div>
-
-<header>
-  <div class="wrap">
-    <div class="top">
-      <div class="brand">
-        <div class="iso" title="Isotipo">
-          <img id="isoImg" alt="Isotipo"/>
-          <div id="isoFallback" class="fallback">NW</div>
-        </div>
-        <img id="logoImg" class="logo" alt="Logotipo"/>
-        <div class="title">
-          <div class="h" id="teamTitle">HYROX Dúo</div>
-          <div class="s">Semana corta • tocás un día y listo</div>
-        </div>
-      </div>
-      <div class="actions">
-        <button id="weekBtn" aria-label="Elegir semana">Semana —</button>
-        <button id="btnSim">Simulación</button>
-        <button id="btnDuo">Dúo</button>
-        <button id="btnBrand" style="display:none">Brand</button>
-      </div>
+  <!-- 🔒 PASSWORD SCREEN -->
+  <div id="gate">
+    <div class="gate-box">
+      <img src="isotipo.png" alt="NOISELESS WORK">
+      <h1>NOISELESS WORK</h1>
+      <input type="password" id="passwordInput" placeholder="Contraseña">
+      <button onclick="unlock()">Entrar</button>
+      <p id="error">Contraseña incorrecta</p>
     </div>
   </div>
-</header>
 
-<main><div class="container">
-  <div class="card glass panel">
-    <div class="kpis">
-      <div class="kpi"><div class="val" id="kmTarget">—</div><div class="lbl">km objetivo (incluye HYROX)</div></div>
-      <div class="kpi"><div class="val"><span class="badge z2">Z2</span></div><div class="lbl">Mar/Jue @ <span id="z2hr"></span> ppm (~<span id="z2pace"></span>/km)</div></div>
-      <div class="kpi"><div class="val"><span class="badge int">INT</span>/<span class="badge tech">TEC</span></div><div class="lbl">L/V umbral • Mié técnica • (V pre-sim: técnica)</div></div>
-      <div class="kpi"><div class="val" id="simYes">—</div><div class="lbl">simulación esta semana</div></div>
-    </div>
-
-    <div class="pills">
-      <div class="pill" id="pillToday">Hoy</div>
-      <div class="pill" id="pillNotes">Notas</div>
-      <div class="pill" id="pillSeq">Secuencia</div>
-    </div>
-
-    <div class="daysRow" id="daysRow"></div>
+  <!-- 🏋️ APP CONTENT -->
+  <div id="app">
+    <!-- TODO TU FRONT ACTUAL VA ACÁ -->
+    <!-- NO TOQUÉ NADA DE TU DISEÑO -->
   </div>
-</div></main>
 
-<div class="overlay" id="overlay" role="dialog" aria-modal="true">
-  <div class="sheet" id="sheet">
-    <div class="sheetHead">
-      <div class="sheetTitle" id="sheetTitle">—</div>
-      <button class="close" id="close">Cerrar</button>
-    </div>
-    <div id="sheetBody"></div>
-  </div>
-</div>
+  <script>
+    /* === CONFIG === */
+    const PASSWORD = "Avant"; // ← CAMBIÁ ESTO SI QUERÉS
 
-<script>
-const DATA = {"team": "NOISELESS WORK", "today": "2026-01-31", "race": "2026-04-11", "z2_hr": 140, "z2_pace": "6:30", "stations_order": ["SkiErg", "Sled Push", "Sled Pull", "Burpee Broad Jumps", "Row", "Farmer Carry", "Sandbag Lunges", "Wall Balls"], "split_sizes": {"Mon": 3, "Wed": 2, "Fri": 3}, "hypertrophy": {"template": "Volumen guiado (sin ejercicios): 3–4 ejercicios totales · 3–4 series · 6–12 reps · RPE 7–8 · 30–45 min máx", "Mon": "Pierna (cuádriceps) + Pecho + Core · 30–45 min · RPE 7–8", "Wed": "Espalda (tirón) + Pecho ligero + Core · 30–40 min · RPE 6–7", "Fri": "Pierna (posterior) + Pecho/Tríceps (mantenimiento) + Core · 30–45 min · RPE 7–8"}, "duo_roles": ["Tu compañero marca el pace (para no destruirlo).", "Tú abrís y cerrás estaciones; repartos 250/500/250 para que él salga a correr descansado."], "sim_standard": ["Secuencia: Ski → Push → Pull → Burpees → Row → Farmer → Lunges → Wall Balls", "Formato fijo (4 bloques):", "1) 500 m run + 500 m Ski (250/500/250)", "2) 500 m run + Sled Push (técnico, continuo)", "3) 500 m run + 500 m Row (reparto similar)", "4) 500 m run + Wall Balls (50–70% reps objetivo)", "RPE: 7–8 normal; semana 9 RPE 8–9; nunca a muerte."], "weeks": [{"week": 1, "monday": "2026-02-02", "label": "02 Feb–08 Feb", "km_target": 25, "simulation": {"enabled": false, "label": ""}, "is_race_week": false}, {"week": 2, "monday": "2026-02-09", "label": "09 Feb–15 Feb", "km_target": 27, "simulation": {"enabled": true, "label": "Simulación estándar (Mini HYROX Dúo)"}, "is_race_week": false}, {"week": 3, "monday": "2026-02-16", "label": "16 Feb–22 Feb", "km_target": 29, "simulation": {"enabled": false, "label": ""}, "is_race_week": false}, {"week": 4, "monday": "2026-02-23", "label": "23 Feb–01 Mar", "km_target": 31, "simulation": {"enabled": true, "label": "Simulación estándar (Mini HYROX Dúo)"}, "is_race_week": false}, {"week": 5, "monday": "2026-03-02", "label": "02 Mar–08 Mar", "km_target": 25, "simulation": {"enabled": false, "label": ""}, "is_race_week": false}, {"week": 6, "monday": "2026-03-09", "label": "09 Mar–15 Mar", "km_target": 32, "simulation": {"enabled": true, "label": "Simulación estándar (Mini HYROX Dúo)"}, "is_race_week": false}, {"week": 7, "monday": "2026-03-16", "label": "16 Mar–22 Mar", "km_target": 34, "simulation": {"enabled": false, "label": ""}, "is_race_week": false}, {"week": 8, "monday": "2026-03-23", "label": "23 Mar–29 Mar", "km_target": 30, "simulation": {"enabled": true, "label": "Simulación estándar (Mini HYROX Dúo)"}, "is_race_week": false}, {"week": 9, "monday": "2026-03-30", "label": "30 Mar–05 Apr", "km_target": 27, "simulation": {"enabled": true, "label": "Simulación estándar (última fuerte — 3 semanas antes)"}, "is_race_week": false}, {"week": 10, "monday": "2026-04-06", "label": "06 Apr–11 Apr", "km_target": 12, "simulation": {"enabled": false, "label": ""}, "is_race_week": true}], "holidays_ar": ["2026-02-16", "2026-02-17", "2026-03-24", "2026-04-02"], "station_distances": {"SkiErg": "500–1000 m", "Sled Push": "2×25 m", "Sled Pull": "2×25 m", "Burpee Broad Jumps": "80–100 m", "Row": "500–1000 m", "Farmer Carry": "200 m", "Sandbag Lunges": "100 m", "Wall Balls": "75–100 reps"}};
-let currentWeek = 1;
+    function unlock() {
+      const input = document.getElementById("passwordInput").value;
+      const error = document.getElementById("error");
 
-document.getElementById("z2hr").textContent = DATA.z2_hr;
-document.getElementById("z2pace").textContent = DATA.z2_pace;
-
-// ---- helpers ----
-function load(key, fallback){ try{ const v=localStorage.getItem(key); return v?JSON.parse(v):fallback; }catch(e){ return fallback; } }
-function save(key, obj){ localStorage.setItem(key, JSON.stringify(obj)); }
-function esc(s){ return (s||"").replaceAll("&","&amp;").replaceAll("<","&lt;").replaceAll(">","&gt;"); }
-
-
-function pad2(n){ return String(n).padStart(2,'0'); }
-function formatDateISO(iso){
-  if(!iso) return "";
-  const d = new Date(iso+"T00:00:00");
-  const days = ["Dom","Lun","Mar","Mié","Jue","Vie","Sáb"];
-  const months = ["ene","feb","mar","abr","may","jun","jul","ago","sep","oct","nov","dic"];
-  return days[d.getDay()] + " " + pad2(d.getDate()) + " " + months[d.getMonth()];
-}
-function dateFor(weekIndex, dayKey){
-  const w = DATA.weeks.find(x=>x.week===weekIndex);
-  if(!w || !w.monday) return null;
-  const base = new Date(w.monday+"T00:00:00");
-  const map = {"Lun":0,"Mar":1,"Mié":2,"Jue":3,"Vie":4,"Sáb":5,"Dom":6};
-  const off = map[dayKey];
-  if(off===undefined) return null;
-  const d = new Date(base.getTime() + off*24*3600*1000);
-  // return ISO yyyy-mm-dd in local-safe way
-  const yyyy = d.getFullYear();
-  const mm = pad2(d.getMonth()+1);
-  const dd = pad2(d.getDate());
-  return `${yyyy}-${mm}-${dd}`;
-}
-
-function fileToDataUrl(file, cb){ const r = new FileReader(); r.onload=()=>cb(r.result); r.readAsDataURL(file); }
-
-// ---- branding ----
-function applyBrand(){
-  const b = load("nw_brand", null);
-  const title = (b && b.title) ? b.title : "HYROX Dúo";
-  document.getElementById("teamTitle").textContent = title;
-
-  const iso = b && b.iso;
-  const logo = b && b.logo;
-
-  const isoImg = document.getElementById("isoImg");
-  const isoFallback = document.getElementById("isoFallback");
-  if(iso){ isoImg.src=iso; isoImg.style.display="block"; isoFallback.style.display="none"; }
-  else { isoImg.style.display="none"; isoFallback.style.display="block"; }
-
-  const logoImg = document.getElementById("logoImg");
-  if(logo){ logoImg.src=logo; logoImg.style.display="block"; }
-  else { logoImg.style.display="none"; }
-}
-applyBrand();
-
-// ---- rotation logic ----
-function rotatedStations(weekIndex){
-  const order = DATA.stations_order;
-  const offset = (weekIndex - 1) % order.length;
-  const seq = [];
-  for(let i=0;i<order.length;i++) seq.push(order[(offset+i)%order.length]);
-  return seq;
-}
-function splitForWeek(weekIndex){
-  const seq = rotatedStations(weekIndex);
-  const mon = seq.slice(0, DATA.split_sizes.Mon);
-  const wed = seq.slice(DATA.split_sizes.Mon, DATA.split_sizes.Mon + DATA.split_sizes.Wed);
-  const fri = seq.slice(DATA.split_sizes.Mon + DATA.split_sizes.Wed);
-  return {mon, wed, fri};
-}
-
-// ---- modal ----
-const overlay = document.getElementById("overlay");
-const sheetTitle = document.getElementById("sheetTitle");
-const sheetBody = document.getElementById("sheetBody");
-function openModal(title, html){
-  sheetTitle.textContent = title;
-  sheetBody.innerHTML = html;
-  overlay.classList.add("show");
-}
-function closeModal(){ overlay.classList.remove("show"); }
-document.getElementById("close").addEventListener("click", closeModal);
-overlay.addEventListener("click", (e)=>{ if(e.target===overlay) closeModal(); });
-
-// Touch-friendly click helper (doesn't break desktop)
-const isTouch = ('ontouchstart' in window) || (navigator.maxTouchPoints>0);
-function bindTap(el, fn){
-  el.addEventListener("click", fn);
-  if(isTouch) el.addEventListener("touchend", (e)=>{ e.preventDefault(); fn(); }, {passive:false});
-}
-
-// ---- week button (no native select) ----
-const weekBtn = document.getElementById("weekBtn");
-function setWeekLabel(wk){
-  const w = DATA.weeks.find(x=>x.week===wk);
-  weekBtn.textContent = w ? ("Semana " + w.week + " · " + w.label + " · " + w.km_target + " km") : "Semana —";
-}
-function openWeekPicker(){
-  let html = '<div class="section"><div class="st">Elegir semana</div><div class="small">Tocá una semana para verla.</div></div>'
-           + '<div class="weekList">';
-  DATA.weeks.forEach(w=>{
-    const active = (w.week===currentWeek);
-    html += '<div class="weekItem" data-week="'+w.week+'" style="'+(active?'background:rgba(255,255,255,.10);':'')+'">'
-         +  '<div class="w">Semana '+w.week+'</div>'
-         +  '<div class="m">'+w.label+' · '+w.km_target+' km</div>'
-         +  '</div>';
-  });
-  html += '</div>';
-  openModal("Semanas", html);
-  document.querySelectorAll(".weekItem").forEach(el=>{
-    const wk = parseInt(el.getAttribute("data-week"),10);
-    bindTap(el, ()=>{ renderWeek(wk); closeModal(); });
-  });
-}
-bindTap(weekBtn, openWeekPicker);
-
-// ---- day model ----
-function badge(tag){
-  if(tag==="Z2") return '<span class="badge z2">Z2</span>';
-  if(tag==="TÉCNICA") return '<span class="badge tech">TEC</span>';
-  if(tag==="INTENSO") return '<span class="badge int">INT</span>';
-  if(tag==="SIM") return '<span class="badge tech">SIM</span>';
-  if(tag==="Z2 LARGO") return '<span class="badge z2">Z2 L</span>';
-  if(tag==="REC") return '<span class="badge z2">REC</span>';
-  if(tag==="RACE") return '<span class="badge int">RACE</span>';
-  return tag;
-}
-
-function dayModel(weekIndex){
-  const w = DATA.weeks.find(x=>x.week===weekIndex);
-  const km = w.km_target;
-  // Race week (taper) — carrera sábado {race.strftime('%d %b %Y')}
-  if(w && w.is_race_week){
-    const hy = load("nw_hy", null);
-    return [
-      { key:"Lun", tag:"TÉCNICA", km:3, title:"Hipertrofia ligera + Técnica",
-        stations: splitForWeek(weekIndex).mon,
-        details:[
-          ["Hipertrofia", (hy?.tpl || DATA.hypertrophy.template)+" • (muy ligero) 2–3 ejercicios + PECHO suave (sin llegar al fallo)"],
-          ["Técnica", "Transiciones limpias. RPE 6. Salir con hambre."]
-        ]
-      },
-      { key:"Mar", tag:"Z2", km:4, title:"Z2 Suave",
-        details:[["Z2", "20–30 min Z2. Nada de tempo."]]
-      },
-      { key:"Mié", tag:"REC", km:0, title:"Descanso / movilidad",
-        details:[["Rec", "Movilidad + activación 20–30 min. Dormir bien."]]
-      },
-      { key:"Jue", tag:"Z2", km:3, title:"Z2 + 4 strides",
-        details:[["Z2", "15–20 min Z2 + 4×15–20s strides (rec 60–90s)."]]
-      },
-      { key:"Vie", tag:"REC", km:0, title:"Descanso",
-        details:[["Rec", "Caminar suave, movilidad. Preparar equipo."]]
-      },
-      { key:"Sáb", tag:"RACE", km:0, title:"CARRERA — HYROX Dúo",
-        details:[["Race", "Objetivo: ejecutar transiciones y ritmo del dúo. No improvisar."]]
-      },
-      { key:"Dom", tag:"REC", km:0, title:"Recuperación",
-        details:[["Rec", "Descanso total o paseo muy suave."]]
-      }
-    ];
-  }
-
-
-  // KM de running del bloque HYROX por SERIES (no 4.5 km lineales).
-  // L/V (umbral): 5–6×500 m => 2.5–3.0 km de run "de trabajo"
-  // Mié (técnico): 3–4×500 m => 1.5–2.0 km
-  const seriesRun = (km<=27 ? 2.5 : 3.0);
-  const techRun   = (km<=27 ? 1.5 : 2.0);
-
-  let monKm = seriesRun;
-  let wedKm = techRun;
-  let friKm = seriesRun;
-
-  const fixed=monKm+wedKm+friKm;
-  const rem=Math.max(0, km-fixed);
-  const tue=Math.max(0, Math.round(rem*0.22));
-  const thu=Math.max(0, Math.round(rem*0.22));
-  const sat=Math.max(0, Math.round(rem*0.46));
-  const sun=Math.max(0, rem-(tue+thu+sat));
-
-  const sp = splitForWeek(weekIndex);
-  const sim = w.simulation;
-  // Si hay simulación esta semana, NO tiene sentido llegar con el viernes a umbral.
-  // Taper simple: viernes se vuelve técnico (sin ácido) y se baja volumen para llegar fresco.
-  const isSimWeek = (sim && sim.enabled);
-  if(isSimWeek){
-    const oldFri = friKm;
-    friKm = Math.round(oldFri * 0.6 * 10)/10; // -40% aprox
-  }
-
-
-  const hy = load("nw_hy", null);
-
-  return [
-    { key:"Lun", tag:"INTENSO", km:monKm, title:"Hipertrofia + HYROX (Umbral)", stations:sp.mon, details:[
-      ["Hipertrofia", (hy?.tpl || DATA.hypertrophy.template)+" • "+(hy?.mon || DATA.hypertrophy.Mon)],
-      ["Formato", "SERIES (umbral): 500 m run + 2 estaciones · 5–6 series"],
-      ["Series", "Ejemplo: S1 500 m + Pull + Push · S2 500 m + Ski + Push · S3 500 m + Ski + Pull"],
-      ["Running", "Total objetivo 2.5–3.0 km · Umbral controlado"],
-    ]},
-    { key:"Mar", tag:"Z2", km:tue, title:"Z2 Trote", details:[
-      ["Z2", "@ "+DATA.z2_hr+" ppm (~"+DATA.z2_pace+"/km). Si >150: bajá o caminá 30–60s."]
-    ]},
-    { key:"Mié", tag:"TÉCNICA", km:wedKm, title:"Hipertrofia + HYROX (Técnica)", stations:sp.wed, details:[
-      ["Hipertrofia", (hy?.tpl || DATA.hypertrophy.template)+" • "+(hy?.wed || DATA.hypertrophy.Wed)],
-      ["Formato", "TÉCNICO: 500 m run + 1 estación · 3–4 series"],
-      ["Objetivo", "Eficiencia, respiración y transiciones limpias"],
-      ["Estación", "Rotación suave de Ski / Push / Pull"],
-    ]},
-    { key:"Jue", tag:"Z2", km:thu, title:"Z2 Trote", details:[["Z2","Z2 estable. Nada de tempo disfrazado."]]},
-    { key:"Vie", tag:(isSimWeek?"TÉCNICA":"INTENSO"), km:friKm, title:("Hipertrofia + HYROX ("+(isSimWeek?"Técnica pre-sim":"Umbral")+")"), stations:sp.fri, details:[
-      ["Hipertrofia", (hy?.tpl || DATA.hypertrophy.template)+" • "+(hy?.fri || DATA.hypertrophy.Fri)],
-      ["Formato", "SERIES (umbral): 500 m run + 2 estaciones · 5–6 series"],
-      ["Series", "Ejemplo: S1 500 m + Pull + Push · S2 500 m + Ski + Push · S3 500 m + Ski + Pull"],
-      ["Running", "Total objetivo 2.5–3.0 km · Última serie prolija"],
-    ]},
-    { key:"Sáb", tag:(sim && sim.enabled)?"SIM":"Z2 LARGO", km:sat, title:(sim && sim.enabled)?"Simulación estándar":"Z2 Largo", details:
-      (sim && sim.enabled) ? [["Simulación", sim.label], ["Formato", DATA.sim_standard.join("\n")]] : [["Z2 Largo","Z2 continuo. Motor. Sin ego."]]
-    },
-    { key:"Dom", tag:"REC", km:sun, title:"Recuperación", details:[["Rec","Z2 muy suave o descanso total según fatiga."]]}
-  ];
-}
-
-
-
-
-function openDay(d, weekIndex){
-  const iso = dateFor(weekIndex, d.key);
-  const header = `<div class="muted">${formatDateISO(iso)}</div>`;
-
-  function sectionClass(h){
-    const k = (h||"").toLowerCase();
-    if(k.includes("hipertrof")) return {cls:"h-hyp", dot:"dot-hyp"};
-    if(k.includes("hyrox") || k.includes("airox") || k.includes("ironx")) return {cls:"h-hyrox", dot:"dot-hyrox"};
-    if(k.includes("run") || k.includes("z2") || k.includes("trote")) return {cls:"h-run", dot:"dot-run"};
-    if(k.includes("dist")) return {cls:"h-dist", dot:"dot-dist"};
-    if(k.includes("recom") || k.includes("nota")) return {cls:"h-rec", dot:"dot-dist"};
-    return {cls:"h-dist", dot:"dot-dist"};
-  }
-
-  let left = '';
-  (d.details||[]).forEach(([h,txt])=>{
-    const sc = sectionClass(h);
-    left += `<div class="card">
-      <h4 class="${sc.cls}"><span><span class="dot ${sc.dot}"></span>${esc(h)}</span></h4>
-      <div class="small">${esc(txt)}</div>
-    </div>`;
-  });
-
-  let stations='';
-  if(d.stations){
-    stations = '<div class="card"><h4 class="h-hyrox"><span><span class="dot dot-hyrox"></span>Estaciones</span></h4><div class="chips">';
-    d.stations.forEach(s=>{
-      stations += `<span class="chip">${esc(s)}</span>`;
-    });
-    stations += '</div></div>';
-  }
-
-  const right = `
-    <div class="card">
-      <h4 class="h-dist"><span><span class="dot dot-dist"></span>Resumen</span></h4>
-      <div class="summary">
-        <div class="item">Intensidad<br><b>${esc(d.tag)}</b></div>
-        <div class="item">Kilómetros<br><b>${esc(String(d.km))}</b></div>
-      </div>
-    </div>
-    ${stations}
-  `;
-
-  const body = `
-    ${header}
-    <div class="modal-grid">
-      <div>${left}</div>
-      <div>${right}</div>
-    </div>
-  `;
-  openModal(d.key+" · "+d.title, body);
-}
-
-
-
-
-function formatText(t){
-  const s = esc(String(t||""));
-  // If text contains line breaks, convert to bullet list when appropriate
-  const lines = s.split("\n").map(x=>x.trim()).filter(Boolean);
-  if(lines.length <= 1){
-    return `<p>${s}</p>`;
-  }
-  // If many lines, render as bullets
-  const items = lines.map(l=>{
-    // strip leading bullet chars
-    const clean = l.replace(/^•\s*/,"");
-    return `<li>${clean}</li>`;
-  }).join("");
-  return `<ul>${items}</ul>`;
-}
-
-function renderWeek(wk){
-  currentWeek = wk;
-  setWeekLabel(wk);
-  const w = DATA.weeks.find(x=>x.week===wk);
-  document.getElementById("kmTarget").textContent = w.km_target;
-  document.getElementById("simYes").textContent = (w.simulation && w.simulation.enabled) ? "Sí" : "No";
-
-  const row = document.getElementById("daysRow");
-  row.innerHTML = "";
-  const days = dayModel(wk);
-  days.forEach(d=>{
-    const b = document.createElement("div");
-    b.className = "dayBtn";
-    const iso = dateFor(wk, d.key);
-    const ds = iso ? (' • ' + formatDateISO(iso)) : '';
-    b.innerHTML = '<div class="d">'+d.key+' — '+badge(d.tag)+'</div>'
-                + '<div class="t">'+d.title+ds+' • '+d.km+' km</div>';
-    bindTap(b, ()=>openDay(d, wk));
-    row.appendChild(b);
-  });
-}
-
-// ---- buttons modals ----
-bindTap(document.getElementById("btnSim"), ()=>{
-  const w = DATA.weeks.find(x=>x.week===currentWeek);
-  const title = (w.simulation && w.simulation.enabled) ? w.simulation.label : "Sin simulación esta semana";
-  const list = (w.simulation && w.simulation.enabled) ? DATA.sim_standard : ["Esta semana: mantener Z2 largo."];
-  let html = '<div class="section"><div class="st">'+esc(title)+'</div>';
-  list.forEach(x=>{ html += '<div class="small">• '+esc(x)+'</div>'; });
-  html += '</div>';
-  openModal("Simulación estándar", html);
-});
-
-bindTap(document.getElementById("btnDuo"), ()=>{
-  let html = '<div class="section"><div class="st">Roles</div>';
-  DATA.duo_roles.forEach(x=>{ html += '<div class="small">• '+esc(x)+'</div>'; });
-  html += '</div>';
-  openModal("Dúo", html);
-});
-
-bindTap(document.getElementById("btnBrand"), ()=>{
-  const b = load("nw_brand", {title:"HYROX Dúo", iso:null, logo:null});
-  const hy = load("nw_hy", {tpl:DATA.hypertrophy.template, mon:DATA.hypertrophy.Mon, wed:DATA.hypertrophy.Wed, fri:DATA.hypertrophy.Fri});
-
-  const html = `
-    <div class="section">
-      <div class="st">Branding</div>
-      <div class="small">Subí tu isotipo/logotipo acá y quedan guardados en este dispositivo.</div>
-      <div style="height:10px"></div>
-      <div class="st">Nombre</div><input id="tTitle" value="${esc(b.title||"")}"/>
-      <div style="height:10px"></div>
-      <div class="st">Isotipo</div><input id="tIso" type="file" accept="image/*"/>
-      <div style="height:10px"></div>
-      <div class="st">Logotipo</div><input id="tLogo" type="file" accept="image/*"/>
-      <div style="height:12px"></div>
-      <button id="saveBrand">Guardar</button> <button id="clearBrand2">Borrar</button>
-    </div>
-
-    <div class="section">
-      <div class="st">Hipertrofia</div>
-      <input id="hyTpl" value="${esc(hy.tpl||"")}" placeholder="Plantilla"/>
-      <div style="height:8px"></div>
-      <input id="hyMon" value="${esc(hy.mon||"")}" placeholder="Lunes"/>
-      <div style="height:8px"></div>
-      <input id="hyWed" value="${esc(hy.wed||"")}" placeholder="Miércoles"/>
-      <div style="height:8px"></div>
-      <input id="hyFri" value="${esc(hy.fri||"")}" placeholder="Viernes"/>
-      <div style="height:12px"></div>
-      <button id="saveHy">Guardar hipertrofia</button>
-    </div>
-  `;
-  openModal("Brand & Hipertrofia", html);
-
-  const saveBrandBtn = document.getElementById("saveBrand");
-  saveBrandBtn && bindTap(saveBrandBtn, ()=>{
-    const cur = load("nw_brand", {}) || {};
-    cur.title = (document.getElementById("tTitle").value || "").trim() || "HYROX Dúo";
-    const isoF = document.getElementById("tIso").files[0];
-    const logoF = document.getElementById("tLogo").files[0];
-
-    const done = ()=>{ save("nw_brand", cur); applyBrand(); closeModal(); };
-    if(isoF){
-      fileToDataUrl(isoF, (d)=>{
-        cur.iso=d;
-        if(logoF) fileToDataUrl(logoF, (dl)=>{ cur.logo=dl; done(); });
-        else done();
-      });
-    } else if(logoF){
-      fileToDataUrl(logoF, (dl)=>{ cur.logo=dl; done(); });
-    } else done();
-  });
-
-  const clearBtn = document.getElementById("clearBrand2");
-  clearBtn && bindTap(clearBtn, ()=>{ localStorage.removeItem("nw_brand"); applyBrand(); closeModal(); });
-
-  const saveHyBtn = document.getElementById("saveHy");
-  saveHyBtn && bindTap(saveHyBtn, ()=>{
-    const hy2 = {
-      tpl:(document.getElementById("hyTpl").value||"").trim(),
-      mon:(document.getElementById("hyMon").value||"").trim(),
-      wed:(document.getElementById("hyWed").value||"").trim(),
-      fri:(document.getElementById("hyFri").value||"").trim(),
-    };
-    save("nw_hy", hy2);
-    renderWeek(currentWeek);
-    closeModal();
-  });
-});
-
-// Pills
-bindTap(document.getElementById("pillSeq"), ()=>{
-  openModal("Secuencia HYROX",
-    '<div class="section"><div class="st">Orden</div>'
-    + '<div class="small">Ski → Push → Pull → Burpees → Row → Farmer → Lunges → Wall Balls</div>'
-    + '<div class="small" style="margin-top:8px">Rotación: cada semana cambia el punto de inicio para que el miércoles técnico rote.</div></div>');
-});
-bindTap(document.getElementById("pillNotes"), ()=>{
-  openModal("Notas",
-    '<div class="section"><div class="st">Reglas</div>'
-    + '<div class="small">• Mar/Jue: Z2 puro (motor).</div>'
-    + '<div class="small">• Mié: técnica (control, no ácido).</div>'
-    + '<div class="small">• L/V: umbral (intenso, pero sin ir a muerte todo el tiempo).</div></div>');
-});
-bindTap(document.getElementById("pillToday"), ()=>{
-  const now = new Date();
-  const map = ["Dom","Lun","Mar","Mié","Jue","Vie","Sáb"];
-  const key = map[now.getDay()];
-  const d = dayModel(currentWeek).find(x=>x.key===key) || dayModel(currentWeek)[0];
-  openDay(d, currentWeek);
-});
-
-// init
-setWeekLabel(1);
-renderWeek(1);
-
-// Canvas particles
-const canvas = document.getElementById('bg');
-const ctx = canvas.getContext('2d');
-let W=0,H=0,DPR=1;
-function resize(){
-  DPR = Math.max(1, window.devicePixelRatio || 1);
-  W = canvas.width = Math.floor(window.innerWidth * DPR);
-  H = canvas.height = Math.floor(window.innerHeight * DPR);
-  canvas.style.width = window.innerWidth + "px";
-  canvas.style.height = window.innerHeight + "px";
-}
-window.addEventListener('resize', resize);
-resize();
-
-const cfg = { density: 0.00008, max: 140, speed: 0.25, linkDist: 120, mouseDist: 140 };
-let parts=[];
-function rnd(n){ return Math.random()*n; }
-function makeP(){ return { x:rnd(W), y:rnd(H), vx:(Math.random()-.5)*cfg.speed*DPR, vy:(Math.random()-.5)*cfg.speed*DPR, r:(1.2+Math.random()*0.8)*DPR }; }
-function initParts(){
-  const target = Math.min(cfg.max, Math.floor(W*H*cfg.density));
-  parts = Array.from({length:target}, makeP);
-}
-initParts();
-window.addEventListener('resize', initParts);
-
-let mouse={x:W/2,y:H/2,active:false};
-window.addEventListener('mousemove', e=>{ mouse={x:e.clientX*DPR, y:e.clientY*DPR, active:true}; });
-window.addEventListener('touchmove', e=>{
-  const t=e.touches[0]; if(!t) return;
-  mouse={x:t.clientX*DPR, y:t.clientY*DPR, active:true};
-}, {passive:true});
-window.addEventListener('mouseleave', ()=>{ mouse.active=false; });
-
-function frame(){
-  ctx.clearRect(0,0,W,H);
-  for(const p of parts){
-    p.x+=p.vx; p.y+=p.vy;
-    if(p.x<0||p.x>W) p.vx*=-1;
-    if(p.y<0||p.y>H) p.vy*=-1;
-    if(mouse.active){
-      const dx=p.x-mouse.x, dy=p.y-mouse.y;
-      const dist=Math.sqrt(dx*dx+dy*dy);
-      const m=cfg.mouseDist*DPR;
-      if(dist<m && dist>0.01){
-        const f=(1 - dist/m)*0.6;
-        p.vx += (dx/dist)*f*0.02*DPR;
-        p.vy += (dy/dist)*f*0.02*DPR;
+      if (input === PASSWORD) {
+        document.getElementById("gate").style.display = "none";
+        document.getElementById("app").style.display = "block";
+        sessionStorage.setItem("nw-unlocked", "true");
+      } else {
+        error.style.display = "block";
       }
     }
-  }
-  for(let i=0;i<parts.length;i++) for(let j=i+1;j<parts.length;j++) {
-    const a=parts[i], b=parts[j];
-    const dx=a.x-b.x, dy=a.y-b.y;
-    const dist=Math.sqrt(dx*dx+dy*dy);
-    const max=cfg.linkDist*DPR;
-    if(dist<max){
-      const alpha=(1 - dist/max)*0.35;
-      ctx.strokeStyle="rgba(255,255,255,"+alpha+")";
-      ctx.lineWidth=1*DPR;
-      ctx.beginPath(); ctx.moveTo(a.x,a.y); ctx.lineTo(b.x,b.y); ctx.stroke();
+
+    // Mantener desbloqueado mientras la sesión esté abierta
+    if (sessionStorage.getItem("nw-unlocked") === "true") {
+      document.getElementById("gate").style.display = "none";
+      document.getElementById("app").style.display = "block";
     }
-  }
-  for(const p of parts){
-    ctx.fillStyle="rgba(255,255,255,.75)";
-    ctx.beginPath(); ctx.arc(p.x,p.y,p.r,0,Math.PI*2); ctx.fill();
-  }
-  requestAnimationFrame(frame);
-}
-frame();
-</script>
+  </script>
+
 </body>
 </html>
